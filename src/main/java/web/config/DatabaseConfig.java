@@ -25,8 +25,13 @@ import java.util.Properties;
 @EnableTransactionManagement
 @ComponentScan(value = "java") //Указание пакетов для сканирования
 public class DatabaseConfig { //Конфигурация подключения к базе данных
-    @Autowired
+
     private Environment env; //Получение доступа к properties файлу и получение из него значений
+
+    @Autowired
+    public DatabaseConfig(Environment env) {
+        this.env = env;
+    }
 
     @Bean
     public DataSource getDataSource() { //+

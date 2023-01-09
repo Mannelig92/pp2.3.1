@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи</title>
+</head>
+<body>
+<h1>Пользователи</h1>
+<div>
+    <thead>
+    <tr>
+        <th scope="col">Имя</th>
+        <th scope="col">Фамилия</th>
+        <th scope="col">Возраст</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user: ${allUsers}">
+        <td th:text="${user.name}"/>
+        <td th:text="${user.last_name}"/>
+        <td th:text="${user.age}"/>
+    </tr>
+    </tbody>
+    </table>
+</div>
+<br>
+<hr/>
+<a href="/saveNewUser">Создать</a>
+<!--    <input type="button" value="Add"-->
+<!--    onclick="location.href = 'saveNewUser'"/>-->
+
+<!--    <div>-->
+<!--        <a href="/saveNewUser">Добавить нового Пользователя</a>-->
+<!--    </div>-->
+
+</body>
+</html>
+</html>
