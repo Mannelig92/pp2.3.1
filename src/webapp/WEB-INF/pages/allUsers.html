@@ -7,7 +7,7 @@
 <body>
 <h1>Пользователи</h1>
 <div>
-    <table border="3">
+    <table>
         <thead>
         <tr>
             <th scope="col">Имя</th>
@@ -17,15 +17,18 @@
         </thead>
         <tbody>
         <tr th:each="user: ${allUsers}">
-            <td th:text="${user.name}"></td>
-            <td th:text="${user.lastName}"></td>
-            <td th:text="${user.email}"></td>
+            <td th:href="@{/edit/{id}(id=${user.getId()})}" th:text="${user.getName()}">user</td>
+            <td th:href="@{/edit/{id}(id=${user.getId()})}" th:text="${user.getLastName()}">user</td>
+            <td th:href="@{/edit/{id}(id=${user.getId()})}" th:text="${user.getEmail()}">user</td>
         </tr>
         </tbody>
     </table>
 </div>
 <br>
 <hr/>
-<a href="/newUser">Создать нового пользователя</a>
+<a href="/newUser"><h3>Создать нового пользователя</h3></a>
+<br>
+<hr/>
+<a href="/"><h3>Главная страница</h3></a>
 </body>
 </html>

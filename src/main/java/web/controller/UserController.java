@@ -27,41 +27,43 @@ public class UserController {
 
     @GetMapping(value = "/allUsers")
     public String showAllUsers(Model model) { //вывод всех юзеров
-//        if (userService.getAllUsers().isEmpty()) {
 //            userService.saveUser(new User("Harry", "Potter", "@potter.com"));
-//            userService.saveUser(new User("Ron", "Wisley", "@Wisley.com"));
-//            userService.saveUser(new User("Hermione", "Granger", "@Granger.com"));
-//        }
-        List<User> allUsers = userService.getAllUsers();
-        model.addAttribute("allUsers", allUsers);
+        model.addAttribute("allUsers", userService.getAllUsers());
         return "allUsers";
     }
 
-    //    В {id} можно поместить любое число и оно поместится в аргумент PathVariable
-    @GetMapping(value = "/{id}/edit") //Пока не работает
-    public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute(userService.getUser(id));
-        //Получим человека по id из Dao и передадим на отображение в представление
-        return "edit";
-    }
-
     @GetMapping(value = "/newUser")
-    public String saveNewUser(Model model) { //Добавление нового юзера
-//        User user = new User();
-        model.addAttribute("user", new User());
+    public String saveNewUser(@ModelAttribute("user") User user) { //Добавление нового юзера
         return "newUser";
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("user") User user) {
+    public String save(@ModelAttribute("user") User user) {
         userService.saveUser(user);
-        return "redirect:/";
+        return "redirect:/allUsers";
     }
-//    @GetMapping("/saveUser") //переход на основную страницу после добавления пользователя
-//    public String saveUser(Model model) {
-//        model.addAttribute("user", new User());
-//
-//        return "redirect:/people";
-//    }
+    @GetMapping
+    public String showUser(@PathVariable("id") int id, Model model){
+        model.addAttribute("user", userService.getUser(id));
+        return "showUser";
+    }
 
+    //получение юзера по id. вместо id можно будет поместить число и с помощью аннотации PathVariable
+    //мы извлёчём этот id из url и получим к нему доступ
+    @GetMapping(value = "/edit/{id}") //Пока не работает
+    public String editUser(@PathVariable("id") int id, Model model) {
+        //Получаем текущего человека по его id
+        model.addAttribute("editUser",userService.getUser(id));
+        return "edit";
+    }
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("user") User user){
+        userService.editUser(user);
+        return "redirect:/allUsers";
+    }
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id){
+        userService.removeUserById(id);
+        return "redirect:/allUsers";
+    }
 }
