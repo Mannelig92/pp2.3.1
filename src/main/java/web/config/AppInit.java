@@ -1,6 +1,10 @@
 package web.config;
 
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 // наследование от класса AbstractAnnotationConfig... предоставл€ет запуск приложени€ и 3 метода дл€ переопределени€
 // служит как замена xml файлу конфигурации
@@ -31,4 +35,16 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
         return new String[]{"/"};
     }
 
+    //Ќужно дл€ работы Thymeleaf с HTML5, методами Patch и Delete
+    @Override
+    public void onStartup(ServletContext aServletContext) throws ServletException {
+        super.onStartup(aServletContext);
+        registerHiddenFieldFilter(aServletContext);
+    }
+
+    //Ќужно дл€ работы Thymeleaf с HTML5, методами Patch и Delete
+    private void registerHiddenFieldFilter(ServletContext aContext) {
+        aContext.addFilter("hiddenHttpMethodFilter",
+                new HiddenHttpMethodFilter()).addMappingForUrlPatterns(null, true, "/*");
+    }
 }
