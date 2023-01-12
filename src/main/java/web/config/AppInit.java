@@ -26,7 +26,6 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
         };
     }
 
-
     /* Данный метод указывает url, на котором будет базироваться приложение
        Тут подставляем / - все http запросы от пользователя посылаем на Диспетчер сервлет
       */

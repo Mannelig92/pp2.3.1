@@ -9,8 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-//@Component
-//@Transactional //Всё тело метода будет выполняться в одной транзакции БД
 @Repository
 @Component
 public class UserDaoImpl implements UserDao { //Dao для соединения с БД
@@ -27,7 +25,7 @@ public class UserDaoImpl implements UserDao { //Dao для соединения с БД
     @Override
     @Transactional
     public void removeUserById(long id) {
-        entityManager.remove(id); //Удаляет из БД по id
+        entityManager.remove(entityManager.find(User.class, id)); //Удаляет из БД по id
     }
 
     @Override
@@ -45,10 +43,6 @@ public class UserDaoImpl implements UserDao { //Dao для соединения с БД
 
     @Override
     public User getUser(long id) {
-//        TypedQuery<User> q = entityManager.createQuery("SELECT u FROM User u where u.id =:id", User.class);
-//        q.setParameter("id", id); //Передаём параметр id по которому будем доставать пользователя из бд
-//        //Должен быть один элемент, если его нет, то возвращаем null
-//        return q.getResultList().stream().findAny().orElse(null);
         return entityManager.find(User.class, id);
     }
 }

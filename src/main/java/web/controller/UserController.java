@@ -26,14 +26,13 @@ public class UserController {
 
     @GetMapping(value = "/allUsers")
     public String showAllUsers(Model model) { //вывод всех юзеров
-        userService.saveUser(new User("Harry", "Potter", "@potter.com"));
+//        userService.saveUser(new User("Harry", "Potter", "@potter.com"));
         model.addAttribute("allUsers", userService.getAllUsers());
         return "allUsers";
     }
 
     @GetMapping(value = "/newUser")
     public String saveNewUser(@ModelAttribute("user") User user) { //Добавление нового юзера
-//        model.addAttribute("user", new User());
         return "newUser";
     }
 
@@ -44,7 +43,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}/showUser")
-    public String showUser(@PathVariable("id") int id, Model model) {
+    public String showUser(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userService.getUser(id));
         return "showUser";
     }
@@ -52,7 +51,7 @@ public class UserController {
     //получение юзера по id. вместо id можно будет поместить число и с помощью аннотации PathVariable
     //мы извлёчём этот id из url и получим к нему доступ
     @GetMapping(value = "/{id}/edit") //Пока не работает
-    public String editUser(@PathVariable("id") int id, Model model) {
+    public String editUser(@PathVariable("id") long id, Model model) {
         //Получаем текущего человека по его id
         model.addAttribute("user", userService.getUser(id));
         return "edit";
@@ -65,7 +64,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/{id}/delete")
-    public String delete(@PathVariable("id") int id) {
+    public String delete(@PathVariable("id") long id) {
         userService.removeUserById(id);
         return "redirect:/lesson/allUsers";
     }
